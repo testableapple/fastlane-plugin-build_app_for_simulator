@@ -1,0 +1,32 @@
+lane :test_ios do
+  build_app_for_simulator(
+    scheme: 'sample-app',
+    project: 'sample-app/sample-app.xcodeproj',
+    configuration: 'Release',
+    output_directory: 'build'
+  )
+
+  expected_path = 'build/sample-app.app'
+  unless ENV['SIMULATOR_APP_OUTPUT_PATH'].include?(expected_path)
+    raise "App path is incorrect: '#{ENV['SIMULATOR_APP_OUTPUT_PATH']}'"
+  end
+
+  zip(path: ENV['SIMULATOR_APP_OUTPUT_PATH'], output_path: "iOS.zip")
+end
+
+lane :test_tvos do
+  build_app_for_simulator(
+    scheme: 'sample-app-tv',
+    project: 'sample-app-tv/sample-app-tv.xcodeproj',
+    platform: 'tvOS',
+    configuration: 'Release',
+    output_directory: 'build'
+  )
+
+  expected_path = 'build/sample-app-tv.app'
+  unless ENV['SIMULATOR_APP_OUTPUT_PATH'].include?(expected_path)
+    raise "App path is incorrect: '#{ENV['SIMULATOR_APP_OUTPUT_PATH']}'"
+  end
+
+  zip(path: ENV['SIMULATOR_APP_OUTPUT_PATH'], output_path: "tvOS.zip")
+end

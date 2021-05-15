@@ -1,0 +1,36 @@
+name: Test
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  chat:
+    name: Checks
+    timeout-minutes: 15
+    runs-on: [macos-latest]
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: bundle install --jobs 4 --retry 3
+
+      - run: bundle exec fasterer
+
+      - name: Test on iOS
+        run: bundle exec fastlane test_ios
+
+      - uses: actions/upload-artifact@v2.2.3
+        if: ${{ success() }}
+        with:
+          name: "iOS"
+          path: "iOS.zip"
+
+      - name: Test on tvOS
+        run: bundle exec fastlane test_tvos
+
+      - uses: actions/upload-artifact@v2.2.3
+        if: ${{ success() }}
+        with:
+          name: "tvOS"
+          path: "tvOS.zip"
+
