@@ -19,7 +19,7 @@ jobs:
       - name: Test on iOS
         run: bundle exec fastlane test_ios
 
-      - uses: actions/upload-artifact@v2.2.4
+      - uses: actions/upload-artifact@v2.3.1
         if: ${{ success() }}
         with:
           name: "iOS"
@@ -28,7 +28,7 @@ jobs:
       - name: Test on tvOS
         run: bundle exec fastlane test_tvos
 
-      - uses: actions/upload-artifact@v2.2.4
+      - uses: actions/upload-artifact@v2.3.1
         if: ${{ success() }}
         with:
           name: "tvOS"
